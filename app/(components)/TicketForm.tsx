@@ -1,5 +1,6 @@
 'use client';
 
+import { error } from 'console';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -34,7 +35,7 @@ const TicketForm = () => {
             method: 'POST', 
             body: JSON.stringify({formData}), 
             //@ts-ignore
-            'content-type': 'application/json',
+            'Content-Type': 'application/json',
         })
         if(!res.ok){
             throw new Error('Failed to create ticket')

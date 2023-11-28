@@ -2,7 +2,7 @@ import React from 'react'
 
 import TicketForm from '@/app/(components)/TicketForm'
 
-const TicketPage = ({ }) => {
+const TicketPage = () => {
     return (
         <>
             <TicketForm />
