@@ -1,7 +1,8 @@
-import Ticket from "../../[models]/Tickets";
+import Ticket from "../../(models)/Tickets";
 import { NextResponse } from 'next/server';
 
 export async function POST(req: { json: () => any; }){
+    console.log('POST RAN')
     try{
         const body = await req.json()
         const ticketData = body.formData

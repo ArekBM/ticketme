@@ -27,12 +27,13 @@ const TicketForm = () => {
         }));
     }
     
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent ) => {
         e.preventDefault()
 
-        const res = await fetch('api/Tickets',{
+        const res = await fetch('/api/Tickets',{
             method: 'POST', 
             body: JSON.stringify({formData}), 
+            //@ts-ignore
             'content-type': 'application/json',
         })
         if(!res.ok){
