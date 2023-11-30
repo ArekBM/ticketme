@@ -18,7 +18,7 @@ const Dashboard = async() => {
 
   const data = await getTickets()
 
-  const tickets = data.tickets
+  const tickets = data?.tickets
 
   const uniqueCategories = [
     //@ts-ignore
@@ -34,7 +34,7 @@ const Dashboard = async() => {
               <h2>{uniqueCategory}</h2>
               <div className='lg:grid grid-cols-2 xl:grid-cols-4'>
 
-                {tickets?.filter((ticket : any)  => ticket.category === uniqueCategory).map((filteredTicket: any, _index: any) => (
+                {tickets && tickets.filter((ticket : any)  => ticket.category === uniqueCategory).map((filteredTicket: any, _index: any) => (
                   <TicketCard id={_index} key={_index} ticket={filteredTicket} />
                 ))}
               </div>
