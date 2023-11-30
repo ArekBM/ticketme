@@ -21,6 +21,7 @@ const Dashboard = async() => {
   const tickets = data.tickets 
 
   const uniqueCategories = [
+    //@ts-ignore
     ...new Set(tickets?.map(({ category } : any) => category)),
   ];
 

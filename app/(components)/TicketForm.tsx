@@ -4,7 +4,9 @@ import { error } from 'console';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-const TicketForm = () => {
+const TicketForm = ({ ticket } : any ) => {
+
+    const EDITMODE = ticket._id === 'new' ? false : true
 
     const router = useRouter() 
     const startingTicketData ={
@@ -15,8 +17,6 @@ const TicketForm = () => {
         status: 'Not started',
         category: 'Hardware Problem'
     }
-
-    const [ formData, setFormData] = useState(startingTicketData)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
@@ -31,19 +31,45 @@ const TicketForm = () => {
     const handleSubmit = async (e: React.FormEvent ) => {
         e.preventDefault()
 
-        const res = await fetch('/api/Tickets',{
-            method: 'POST', 
-            body: JSON.stringify({formData}), 
-            //@ts-ignore
-            'Content-Type': 'application/json',
-        })
-        if(!res.ok){
-            throw new Error('Failed to create ticket')
+        if(EDITMODE){
+            const res = await fetch(`/api/Tickets/${ticket._id}`,{
+                method: 'PUT', 
+                body: JSON.stringify({formData}), 
+                //@ts-ignore
+                'Content-Type': 'application/json',
+            })
+            if(!res.ok){
+                throw new Error('Failed to update ticket')
+            }
+            router.refresh()
+            router.push('/')
+        } else {
+            const res = await fetch('/api/Tickets',{
+                method: 'POST', 
+                body: JSON.stringify({formData}), 
+                //@ts-ignore
+                'Content-Type': 'application/json',
+            })
+            if(!res.ok){
+                throw new Error('Failed to create ticket')
+            }
+            router.refresh()
+            router.push('/')
         }
-        router.refresh()
-        router.push('/')
 
     }
+
+    if(EDITMODE){
+        startingTicketData['title'] = ticket.title
+        startingTicketData['description'] = ticket.description
+        startingTicketData['priority'] = ticket.priority
+        startingTicketData['progress']= ticket.progress
+        startingTicketData['status'] = ticket.status
+        startingTicketData['category'] = ticket.category
+    }
+
+    const [ formData, setFormData] = useState(startingTicketData)
+
     return(
         <div className='flex justify-center'>
             <form 
@@ -51,7 +77,7 @@ const TicketForm = () => {
                 method='post' 
                 onSubmit={handleSubmit}
             >
-                <h3>Create Your Ticket</h3>
+                <h3>{EDITMODE ? 'Update Your Ticket' : 'Create Your Ticket'}</h3>
                 <label>Title</label>
                 <input 
                     id='title' 
@@ -73,7 +99,7 @@ const TicketForm = () => {
                     <label>Category</label>
                 <select name='category' value={formData.category} onChange={handleChange}>
                     <option value='Hardware Problem'>Hardware Problem</option>
-                    <option value='Software Problem'>Hardware Problem</option>
+                    <option value='Software Problem'>Software Problem</option>
                     <option value='Project'>Project</option>
                 </select>
                     <label>Priority</label>
@@ -139,7 +165,7 @@ const TicketForm = () => {
                     <option value='started'>Started</option>
                     <option value='completed'>Completed</option>
                 </select>
-                <input type='submit' className='btn' value='Create Ticket' />
+                <input type='submit' className='btn' value={EDITMODE ? 'Update Your Ticket' : 'Create Ticket'} />
             </form>
         </div>
     )

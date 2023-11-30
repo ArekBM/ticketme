@@ -1,9 +1,9 @@
 const StatusDisplay = ({ status } : any) => {
 
-    const getColor = (status: string ) => {
+    const getColor = (status: any ) => {
         let color = 'bg-slate-700'
         switch(status.toLowerCase()){
-            case 'done':
+            case 'completed':
                 color = 'bg-green-200'
                 return color
             case 'started':
