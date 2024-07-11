@@ -38,9 +38,10 @@ const TicketCard = ({ ticket } : any) => {
             </p>
             <div className='flex-grow'></div>
             <div className='flex mt-2'>
-                <div className='flex flex-col'>
+                <div className='flex flex-col gap-2'>
                     <p className='text-xs my-1'>{formatTimestamp(ticket.createdAt)}</p>
                     <ProgressDisplay progress={ticket.progress} />
+                    <p>{ticket.progress}%</p>
                 </div>
                 <div className='ml-auto flex items-end'>
                     <StatusDisplay status={ticket.status} />
