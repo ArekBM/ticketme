@@ -14,9 +14,26 @@ const getTickets = async () => {
     console.log('failed to get tickets', error)
   }
 }
+
+const getUsers = async () => {
+  try {
+    const res = await fetch('https://ticketme-arekbm.vercel.app/api/Users', {
+      cache: 'no-store'
+    })
+
+    if(!res.ok){
+      throw new Error('Failed to fetch Users')
+    }
+    return res.json()
+  } catch (error){
+    console.log('failed to get users', error)
+  }
+}
 const Dashboard = async() => {
 
   const data = await getTickets()
+
+  const users = await getUsers()
 
   const tickets = data?.tickets
 
