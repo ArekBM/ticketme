@@ -6,6 +6,8 @@ import Nav from './(components)/Nav'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
+import { Analytics } from '@vercel/analytics/react' 
+
 config.autoAddCss = false
 
 const inter = Inter({ subsets: ['latin'] })
@@ -38,6 +40,7 @@ export default function RootLayout({
           </div>
         </div>
       </body>
+      <Analytics />
     </html>
   )
 }
